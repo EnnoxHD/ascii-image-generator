@@ -5,9 +5,9 @@ import java.util.function.DoubleUnaryOperator;
 final class Quantizer {
 	
 	enum Method implements DoubleUnaryOperator {
-		CEIL(d -> Math.ceil(d)),
-		ROUND(d -> Math.round(d)),
-		FLOOR(d -> Math.floor(d)),
+		CEIL(Math::ceil),
+		ROUND(Math::round),
+		FLOOR(Math::floor),
 		DEFAULT(ROUND);
 		
 		private DoubleUnaryOperator method = null;
