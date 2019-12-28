@@ -3,7 +3,7 @@ package com.github.ennoxhd.aig;
 final class CharacterMapper {
 
 	private interface IntToCharFunction {
-		public char apply(int i);
+		public char apply(final int i);
 	}
 	
 	enum Modus implements IntToCharFunction {
@@ -13,29 +13,32 @@ final class CharacterMapper {
 		
 		private char[] characters = null;
 		
-		private Modus(char[] characters) {
-			this.characters = characters;
+		private Modus(final char[] characters) {
+			if(characters == null)
+				this.characters = new char[] {};
+			else
+				this.characters = characters;
 		}
 		
-		private Modus(Modus modus) {
+		private Modus(final Modus modus) {
 			this(modus.characters);
 		}
 		
-		int levels() {
+		int degrees() {
 			return characters.length;
 		}
 
-		public char apply(int i) {
+		public char apply(final int i) {
 			return characters[i];
 		}
 	}
 	
-	static char mapToChar(int value) {
+	static char mapToChar(final int value) {
 		return mapToChar(value, null);
 	}
 	
-	static char mapToChar(int value, Modus modus) {
-		if(modus == null) modus = Modus.DEFAULT;
+	static char mapToChar(final int value, final Modus modus) {
+		if(modus == null) return Modus.DEFAULT.apply(value);
 		return modus.apply(value);
 	}
 }

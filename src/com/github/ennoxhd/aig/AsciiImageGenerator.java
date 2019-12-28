@@ -6,13 +6,14 @@ import java.util.Optional;
 
 public final class AsciiImageGenerator {
 	
-	private static Optional<File> getOutputFile(File inputFile) {
+	private static Optional<File> getOutputFile(final File inputFile) {
+		if(inputFile == null) return Optional.empty();
 		Optional<File> optTxtFile = FileUtils.toTxtFile(inputFile);
 		if(optTxtFile.isEmpty()) return Optional.empty();
 		return FileUtils.nextFile(optTxtFile.get());
 	}
 	
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		try {
 			Optional<File> optImageFile = GuiUtils.chooseImageFileDialog();
 			if(optImageFile.isEmpty()) System.exit(1);

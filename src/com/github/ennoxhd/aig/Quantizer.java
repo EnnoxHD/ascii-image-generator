@@ -12,25 +12,29 @@ final class Quantizer {
 		
 		private DoubleUnaryOperator method = null;
 		
-		private Method(DoubleUnaryOperator method) {
-			this.method = method;
+		private Method(final DoubleUnaryOperator method) {
+			if(method == null)
+				this.method = Math::round;
+			else
+				this.method = method;
 		}
 		
-		private Method(Method method) {
+		private Method(final Method method) {
 			this(method.method);
 		}
 		
-		public double applyAsDouble(double d) {
+		public double applyAsDouble(final double d) {
 			return method.applyAsDouble(d);
 		}
 	}
 	
-	static int quantize(int value, int maxValue, int destMaxValue) {
+	static int quantize(final int value, final int maxValue, final int destMaxValue) {
 		return quantize(value, maxValue, destMaxValue, null);
 	}
 	
-	static int quantize(int value, int maxValue, int destMaxValue, Method method) {
-		if(method == null) method = Method.DEFAULT;
-		return (int) method.applyAsDouble(((double) (destMaxValue - 1) * value) / (double) maxValue);
+	static int quantize(final int value, final int maxValue, final int destMaxValue, final Method method) {
+		Method methodToUse = method;
+		if(method == null) methodToUse = Method.DEFAULT;
+		return (int) methodToUse.applyAsDouble(((double) (destMaxValue - 1) * value) / (double) maxValue);
 	}
 }

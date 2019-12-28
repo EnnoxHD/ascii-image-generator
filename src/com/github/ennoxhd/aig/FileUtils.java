@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 final class FileUtils {
 	
-	static Optional<BufferedImage> getImageFromFile(File imageFile) {
+	static Optional<BufferedImage> getImageFromFile(final File imageFile) {
 		if(imageFile == null) Optional.empty();
 		try {
 			return Optional.ofNullable(ImageIO.read(imageFile));
@@ -20,7 +20,7 @@ final class FileUtils {
 		}
 	}
 	
-	static Optional<File> toTxtFile(File file) {
+	static Optional<File> toTxtFile(final File file) {
 		if(file == null) Optional.empty();
 		if(!file.isFile()) Optional.empty();
 		final String txtExtension = ".txt";
@@ -37,7 +37,7 @@ final class FileUtils {
 		return Optional.of(new File(newFile));
 	}
 	
-	private static Optional<String> createFileName(File file, int n) {
+	private static Optional<String> createFileName(final File file, final int n) {
 		if(n < 0) return Optional.empty();
 		if(file == null) {
 			if(n == 0) return Optional.empty();
@@ -58,7 +58,7 @@ final class FileUtils {
 		return Optional.of(newFile);
 	}
 	
-	static Optional<File> nextFile(File file) {
+	static Optional<File> nextFile(final File file) {
 		if(file == null) Optional.empty();
 		if(!file.exists()) Optional.of(file);
 		for(int existingFileCount = 0; existingFileCount >= 0; existingFileCount++) {
@@ -70,7 +70,7 @@ final class FileUtils {
 		return Optional.empty();
 	}
 	
-	static boolean writeToFile(String[] lines, File file) {
+	static boolean writeToFile(final String[] lines, final File file) {
 		if(lines == null || file == null) return false;
 		try {
 			FileWriter fileWriter = new FileWriter(file);
