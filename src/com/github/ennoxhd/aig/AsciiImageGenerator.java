@@ -15,7 +15,7 @@ public final class AsciiImageGenerator {
 	
 	public static void main(final String[] args) {
 		try {
-			Optional<File> optImageFile = GuiUtils.chooseImageFileDialog();
+			Optional<File> optImageFile = Dialogs.chooseImageFileDialog();
 			if(optImageFile.isEmpty()) System.exit(1);
 			Optional<File> optTextFile = getOutputFile(optImageFile.get());
 			if(optTextFile.isEmpty()) System.exit(2);
