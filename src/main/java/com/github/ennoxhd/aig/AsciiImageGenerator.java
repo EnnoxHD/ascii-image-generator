@@ -1,5 +1,6 @@
 package com.github.ennoxhd.aig;
 
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Optional;
@@ -16,10 +17,11 @@ public final class AsciiImageGenerator {
 	public static void main(final String[] args) {
 		try {
 			Optional<File> optImageFile = Dialogs.chooseImageFileDialog();
-			if(optImageFile.isEmpty()) System.exit(1);
+			Optional<Point2D.Double> optScaling = Dialogs.chooseScalingFactorsDialog();
+			if(optImageFile.isEmpty() || optScaling.isEmpty()) System.exit(1);
 			Optional<File> optTextFile = getOutputFile(optImageFile.get());
 			if(optTextFile.isEmpty()) System.exit(2);
-			Optional<BufferedImage> optImage = FileUtils.getImageFromFile(optImageFile.get());
+			Optional<BufferedImage> optImage = FileUtils.getImageFromFile(optImageFile.get(), optScaling.get());
 			if(optImage.isEmpty()) System.exit(3);
 			Optional<String[]> optAsciiImage = Converter.convertToAscii(optImage.get());
 			if(optAsciiImage.isEmpty()) System.exit(4);

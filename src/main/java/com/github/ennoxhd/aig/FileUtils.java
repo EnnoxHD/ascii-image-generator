@@ -1,5 +1,8 @@
 package com.github.ennoxhd.aig;
 
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,11 +14,17 @@ import javax.imageio.ImageIO;
 
 final class FileUtils {
 	
-	static Optional<BufferedImage> getImageFromFile(final File imageFile) {
+	static Optional<BufferedImage> getImageFromFile(final File imageFile,
+			final Point2D.Double scalingFactors) {
 		if(imageFile == null) Optional.empty();
 		try {
-			return Optional.ofNullable(ImageIO.read(imageFile));
-		} catch (IOException e) {
+			BufferedImage image = ImageIO.read(imageFile);
+			AffineTransformOp transformOp = new AffineTransformOp(
+				AffineTransform.getScaleInstance(scalingFactors.x, scalingFactors.y),
+				AffineTransformOp.TYPE_BILINEAR);
+			BufferedImage imageTransformed = transformOp.filter(image, null);
+			return Optional.ofNullable(imageTransformed);
+		} catch (Exception e) {
 			return Optional.empty();
 		}
 	}
