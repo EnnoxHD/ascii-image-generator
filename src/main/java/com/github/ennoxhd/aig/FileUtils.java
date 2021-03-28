@@ -79,6 +79,13 @@ final class FileUtils {
 		return Optional.empty();
 	}
 	
+	static Optional<File> getOutputFile(final File inputFile) {
+		if(inputFile == null) return Optional.empty();
+		Optional<File> optTxtFile = FileUtils.toTxtFile(inputFile);
+		if(optTxtFile.isEmpty()) return Optional.empty();
+		return FileUtils.nextFile(optTxtFile.get());
+	}
+	
 	static boolean writeToFile(final String[] lines, final File file) {
 		if(lines == null || file == null) return false;
 		try {

@@ -7,19 +7,12 @@ import java.util.Optional;
 
 public final class AsciiImageGenerator {
 	
-	private static Optional<File> getOutputFile(final File inputFile) {
-		if(inputFile == null) return Optional.empty();
-		Optional<File> optTxtFile = FileUtils.toTxtFile(inputFile);
-		if(optTxtFile.isEmpty()) return Optional.empty();
-		return FileUtils.nextFile(optTxtFile.get());
-	}
-	
 	public static void main(final String[] args) {
 		try {
 			Optional<File> optImageFile = Dialogs.chooseImageFileDialog();
 			Optional<Point2D.Double> optScaling = Dialogs.chooseScalingFactorsDialog();
 			if(optImageFile.isEmpty() || optScaling.isEmpty()) System.exit(1);
-			Optional<File> optTextFile = getOutputFile(optImageFile.get());
+			Optional<File> optTextFile = FileUtils.getOutputFile(optImageFile.get());
 			if(optTextFile.isEmpty()) System.exit(2);
 			Optional<BufferedImage> optImage = FileUtils.getImageFromFile(optImageFile.get(), optScaling.get());
 			if(optImage.isEmpty()) System.exit(3);
