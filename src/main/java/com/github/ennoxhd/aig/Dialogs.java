@@ -4,6 +4,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.Point2D;
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Optional;
@@ -18,12 +20,54 @@ import javax.swing.JFormattedTextField.AbstractFormatterFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JTextArea;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.NumberFormatter;
 
 final class Dialogs {
+	
+	private static String exceptionToString(final Exception e) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		e.printStackTrace(pw);
+		return sw.toString();
+	}
+	
+	static void errorDialog(final Exception e) {
+		try {
+			GuiUtils.initializeGui();
+			JPanel panel = new JPanel();
+			GroupLayout layout = new GroupLayout(panel);
+			layout.setAutoCreateContainerGaps(true);
+			layout.setAutoCreateGaps(true);
+			panel.setLayout(layout);
+			JLabel message = new JLabel(e.getMessage());
+			String stackTrace = exceptionToString(e);
+			JTextArea details = new JTextArea(stackTrace, 15, 80);
+			JScrollPane scrollPane = new JScrollPane(details);
+			layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING)
+					.addComponent(message)
+					.addComponent(scrollPane));
+			layout.setVerticalGroup(layout.createSequentialGroup()
+					.addComponent(message)
+					.addComponent(scrollPane));
+			JOptionPane.showMessageDialog(null, panel,
+					"AsciiImageGenerator - Error", JOptionPane.ERROR_MESSAGE);
+		} catch(Exception ex) {
+			return;
+		}
+	}
+	
+	static void successDialog(final String fileName) {
+		String message = "The image file has been converted to ASCII art.";
+		if(fileName != null && !fileName.isBlank())
+			message += "\nFile: " + fileName;
+		JOptionPane.showMessageDialog(null, message, "AsciiImageGenerator",
+				JOptionPane.INFORMATION_MESSAGE);
+	}
 
 	static Optional<File> chooseImageFileDialog() {
 		GuiUtils.initializeGui();
