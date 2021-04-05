@@ -1,31 +1,48 @@
 plugins {
-   id 'java'
-   id 'application'
+	id 'java'
+	id 'application'
 }
 
 java {
-   modularity.inferModulePath = true
-   toolchain {
-      languageVersion = JavaLanguageVersion.of(15)
-   }
+	modularity.inferModulePath = true
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(15)
+	}
+	withJavadocJar()
+	withSourcesJar()
+}
+
+javadoc {
+	options {
+		memberLevel = JavadocMemberLevel.PRIVATE
+	}
 }
 
 application {
-   mainModule = 'com.github.ennoxhd.aig'
-   mainClass  = 'com.github.ennoxhd.aig.AsciiImageGenerator'
+	mainModule = 'com.github.ennoxhd.aig'
+	mainClass  = 'com.github.ennoxhd.aig.AsciiImageGenerator'
 }
 
 task debug (type: Exec) {
-   group = 'application'
-   description = 'Runs this project as a JVM application with debugging enabled (add program arguments with -Pargs="...")'
+	group = 'application'
+	description = 'Runs this project as a JVM application with debugging enabled (add program arguments with -Pargs="...")'
+	
+	def baseCommand = 'run --debug-jvm'
+	if(project.hasProperty('args')) {
+		baseCommand += ' --args="' + project.getProperty('args') + '"'
+	}
+	if (System.properties['os.name'].toLowerCase().contains('windows')) {
+		commandLine = ['cmd', '/c', 'gradlew.bat ' + baseCommand]
+	} else {
+		commandLine = ['sh', 'gradlew ' + baseCommand]
+	}
+}
 
-   def baseCommand = 'run --debug-jvm'
-   if(project.hasProperty('args')) {
-      baseCommand += ' --args="' + project.getProperty('args') + '"'
-   }
-   if (System.properties['os.name'].toLowerCase().contains('windows')) {
-      commandLine = ['cmd', '/c', 'gradlew.bat ' + baseCommand]
-   } else {
-      commandLine = ['sh', 'gradlew ' + baseCommand]
-   }
+task showJavadoc(dependsOn: javadoc) {
+	group = 'documentation'
+	description = 'Shows the generated Javadoc API documentation in the default browser.'
+	
+	doLast {
+		java.awt.Desktop.getDesktop().browse(project.file("./build/docs/javadoc/index.html").toURI())
+	}
 }

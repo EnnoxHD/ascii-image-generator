@@ -27,27 +27,45 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.NumberFormatter;
 
+/**
+ * Provides several dialogs for interaction with the user.
+ */
 final class Dialogs {
 	
-	private static String exceptionToString(final Exception e) {
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
+	/**
+	 * Private default constructor (not used).
+	 */
+	private Dialogs() {}
+	
+	/**
+	 * Converts an {@link Exception} to a string containing the stack trace. 
+	 * @param e exception to be converted
+	 * @return the stack trace of the exception
+	 */
+	private static final String exceptionToString(final Exception e) {
+		final StringWriter sw = new StringWriter();
+		final PrintWriter pw = new PrintWriter(sw);
 		e.printStackTrace(pw);
 		return sw.toString();
 	}
 	
-	static void errorDialog(final Exception e) {
+	/**
+	 * Displays an error dialog with the exception message and
+	 * stack trace of a given exception.
+	 * @param e exception to be displayed to the user
+	 */
+	static final void errorDialog(final Exception e) {
 		try {
 			GuiUtils.initializeGui();
-			JPanel panel = new JPanel();
-			GroupLayout layout = new GroupLayout(panel);
+			final JPanel panel = new JPanel();
+			final GroupLayout layout = new GroupLayout(panel);
 			layout.setAutoCreateContainerGaps(true);
 			layout.setAutoCreateGaps(true);
 			panel.setLayout(layout);
-			JLabel message = new JLabel(e.getMessage());
-			String stackTrace = exceptionToString(e);
-			JTextArea details = new JTextArea(stackTrace, 15, 80);
-			JScrollPane scrollPane = new JScrollPane(details);
+			final JLabel message = new JLabel(e.getMessage());
+			final String stackTrace = exceptionToString(e);
+			final JTextArea details = new JTextArea(stackTrace, 15, 80);
+			final JScrollPane scrollPane = new JScrollPane(details);
 			layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING)
 					.addComponent(message)
 					.addComponent(scrollPane));
@@ -56,12 +74,16 @@ final class Dialogs {
 					.addComponent(scrollPane));
 			JOptionPane.showMessageDialog(null, panel,
 					"AsciiImageGenerator - Error", JOptionPane.ERROR_MESSAGE);
-		} catch(Exception ex) {
+		} catch(final Exception ex) {
 			return;
 		}
 	}
 	
-	static void successDialog(final String fileName) {
+	/**
+	 * Displays a success dialog and informs the user about successful conversion.
+	 * @param fileName the file name of the generated file
+	 */
+	static final void successDialog(final String fileName) {
 		String message = "The image file has been converted to ASCII art.";
 		if(fileName != null && !fileName.isBlank())
 			message += "\nFile: " + fileName;
@@ -69,11 +91,15 @@ final class Dialogs {
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	static Optional<File> chooseImageFileDialog() {
+	/**
+	 * Displays an open file dialog to choose an image file.
+	 * @return the image file if the user choose one
+	 */
+	static final Optional<File> chooseImageFileDialog() {
 		GuiUtils.initializeGui();
-		JFileChooser chooser = new JFileChooser();
+		final JFileChooser chooser = new JFileChooser();
 		chooser.setDialogTitle("Ascii Image Generator");
-		FileFilter imageFileFilter = new FileNameExtensionFilter("Image file",
+		final FileFilter imageFileFilter = new FileNameExtensionFilter("Image file",
 				"bmp", "gif", "jpg", "jpeg", "png", "tiff", "wbmp");
 		chooser.addChoosableFileFilter(imageFileFilter);
 		chooser.setFileFilter(imageFileFilter);
@@ -82,7 +108,7 @@ final class Dialogs {
 		if(chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
 			return Optional.empty();
 		} else {
-			File selectedFile = chooser.getSelectedFile();
+			final File selectedFile = chooser.getSelectedFile();
 			if(selectedFile.isFile()) {
 				return Optional.of(selectedFile);
 			} else {
@@ -91,20 +117,25 @@ final class Dialogs {
 		}
 	}
 	
-	static Optional<Point2D.Double> chooseScalingFactorsDialog() {
+	/**
+	 * Displays a dialog to set the scaling factors for the resulting image.
+	 * @return scaling factors for width ({@link Point2D.Double#x}) and
+	 * height ({@link Point2D.Double#y})
+	 */
+	static final Optional<Point2D.Double> chooseScalingFactorsDialog() {
 		GuiUtils.initializeGui();
 		
-		AbstractFormatterFactory formatterFactory = new AbstractFormatterFactory() {
+		final AbstractFormatterFactory formatterFactory = new AbstractFormatterFactory() {
 			@Override
-			public AbstractFormatter getFormatter(JFormattedTextField tf) {
-				DecimalFormat format = new DecimalFormat();
+			public final AbstractFormatter getFormatter(final JFormattedTextField tf) {
+				final DecimalFormat format = new DecimalFormat();
 				format.setDecimalSeparatorAlwaysShown(false);
 				format.setGroupingUsed(false);
 				format.setMaximumFractionDigits(0);
 				format.setMinimumFractionDigits(0);
 				format.setMaximumIntegerDigits(3);
 				format.setMinimumIntegerDigits(1);
-				NumberFormatter formatter = new NumberFormatter(format);
+				final NumberFormatter formatter = new NumberFormatter(format);
 				formatter.setMinimum(Integer.valueOf(5));
 				formatter.setMaximum(Integer.valueOf(500));
 				formatter.setAllowsInvalid(true);
@@ -113,74 +144,74 @@ final class Dialogs {
 			}
 		};
 		
-		JPanel panel = new JPanel();
-		GroupLayout layout = new GroupLayout(panel);
+		final JPanel panel = new JPanel();
+		final GroupLayout layout = new GroupLayout(panel);
 		layout.setAutoCreateContainerGaps(true);
 		layout.setAutoCreateGaps(true);
 		panel.setLayout(layout);
 		
-		JLabel widthLabel = new JLabel("Width:");
-		JFormattedTextField widthField = new JFormattedTextField(formatterFactory);
+		final JLabel widthLabel = new JLabel("Width:");
+		final JFormattedTextField widthField = new JFormattedTextField(formatterFactory);
 		widthField.setValue(Integer.valueOf(100));
 		widthField.setColumns(3);
-		JLabel widthPercentSign = new JLabel("%");
-		JSlider widthSlider = new JSlider(5, 500, 100);
+		final JLabel widthPercentSign = new JLabel("%");
+		final JSlider widthSlider = new JSlider(5, 500, 100);
 		widthSlider.addChangeListener(e -> {
 			widthField.setText(String.valueOf(widthSlider.getValue()));
 		});
 		widthField.addFocusListener(new FocusListener() {
 			@Override
-			public void focusGained(FocusEvent e) {
+			public final void focusGained(final FocusEvent e) {
 				return;
 			}
 			@Override
-			public void focusLost(FocusEvent e) {
+			public final void focusLost(final FocusEvent e) {
 				try {
 					widthField.commitEdit();
 					widthSlider.setValue(Integer.valueOf(widthField.getText()));
-				} catch (ParseException | NumberFormatException ex) {
+				} catch (final ParseException | NumberFormatException ex) {
 					widthField.setValue(widthSlider.getValue());
 				}
 			}
 		});
-		JButton widthReset = new JButton("Reset");
+		final JButton widthReset = new JButton("Reset");
 		widthReset.addActionListener(e -> {
 			widthSlider.setValue(100);
 		});
 		
-		JLabel heightLabel = new JLabel("Height:");
-		JFormattedTextField heightField = new JFormattedTextField(formatterFactory);
+		final JLabel heightLabel = new JLabel("Height:");
+		final JFormattedTextField heightField = new JFormattedTextField(formatterFactory);
 		heightField.setValue(Integer.valueOf(100));
 		heightField.setColumns(3);
-		JLabel heightPercentSign = new JLabel("%");
-		JSlider heightSlider = new JSlider(5, 500, 100);
+		final JLabel heightPercentSign = new JLabel("%");
+		final JSlider heightSlider = new JSlider(5, 500, 100);
 		heightSlider.addChangeListener(e -> {
 			heightField.setText(String.valueOf(heightSlider.getValue()));
 		});
 		heightField.addFocusListener(new FocusListener() {
 			@Override
-			public void focusGained(FocusEvent e) {
+			public final void focusGained(final FocusEvent e) {
 				return;
 			}
 			@Override
-			public void focusLost(FocusEvent e) {
+			public final void focusLost(final FocusEvent e) {
 				try {
 					heightField.commitEdit();
 					heightSlider.setValue(Integer.valueOf(heightField.getText()));
-				} catch (ParseException | NumberFormatException ex) {
+				} catch (final ParseException | NumberFormatException ex) {
 					heightField.setValue(heightSlider.getValue());
 				}
 			}
 		});
-		JButton heightReset = new JButton("Reset");
+		final JButton heightReset = new JButton("Reset");
 		heightReset.addActionListener(e -> {
 			heightSlider.setValue(100);
 		});
-		JButton heightHalf = new JButton("Half height");
+		final JButton heightHalf = new JButton("Half height");
 		heightHalf.addActionListener(e -> {
 			heightSlider.setValue(Math.round(widthSlider.getValue() / 2.0f));
 		});
-		JButton heightProportional = new JButton("Proportional");
+		final JButton heightProportional = new JButton("Proportional");
 		heightProportional.addActionListener(e -> {
 			heightSlider.setValue(widthSlider.getValue());
 		});
@@ -226,11 +257,11 @@ final class Dialogs {
 					.addComponent(heightProportional))
 		);
 		
-		int result = JOptionPane.showConfirmDialog(null, panel, "Scaling factors",
+		final int result = JOptionPane.showConfirmDialog(null, panel, "Scaling factors",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
 		if(result == JOptionPane.OK_OPTION) {
-			Point2D.Double scale = new Point2D.Double(widthSlider.getValue() / 100.0,
+			final Point2D.Double scale = new Point2D.Double(widthSlider.getValue() / 100.0,
 					heightSlider.getValue() / 100.0);
 			return Optional.of(scale);
 		}
