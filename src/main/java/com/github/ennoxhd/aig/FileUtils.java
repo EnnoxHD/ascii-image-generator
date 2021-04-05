@@ -27,16 +27,22 @@ final class FileUtils {
 	 * @param imageFile image file to load
 	 * @param scalingFactors scaling factors for width ({@link Point2D.Double#x}) and
 	 * height ({@link Point2D.Double#y})
+	 * @param interpolationType interpolation type to use for scaling the image
 	 * @return the scaled image
 	 */
 	static final Optional<BufferedImage> getImageFromFile(final File imageFile,
-			final Point2D.Double scalingFactors) {
+			final Point2D.Double scalingFactors,
+			final ImageConversionMethods.InterpolationType interpolationType) {
 		if(imageFile == null) Optional.empty();
+		final Point2D.Double scalingFactorsToUse = scalingFactors == null ?
+				new Point2D.Double(1.0, 1.0) : scalingFactors;
+		final ImageConversionMethods.InterpolationType interpolationTypeToUse = interpolationType == null ?
+				ImageConversionMethods.InterpolationType.DEFAULT : interpolationType;
 		try {
 			final BufferedImage image = ImageIO.read(imageFile);
 			final AffineTransformOp transformOp = new AffineTransformOp(
-				AffineTransform.getScaleInstance(scalingFactors.x, scalingFactors.y),
-				AffineTransformOp.TYPE_BILINEAR);
+				AffineTransform.getScaleInstance(scalingFactorsToUse.x, scalingFactorsToUse.y),
+				interpolationTypeToUse.getType());
 			final BufferedImage imageTransformed = transformOp.filter(image, null);
 			return Optional.ofNullable(imageTransformed);
 		} catch (final Exception e) {

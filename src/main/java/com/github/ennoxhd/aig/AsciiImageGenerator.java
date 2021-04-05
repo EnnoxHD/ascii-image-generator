@@ -28,11 +28,13 @@ public final class AsciiImageGenerator {
 					.orElseThrow(() -> new AsciiImageGeneratorException("No image file was chosen."));
 			final Point2D.Double scalingFactors = Dialogs.chooseScalingFactorsDialog()
 					.orElseThrow(() -> new AsciiImageGeneratorException("No scaling factors were chosen."));
+			final ImageConversionMethods methods = Dialogs.chooseMethodsDialog()
+					.orElseThrow(() -> new AsciiImageGeneratorException("No image conversion methods chosen."));
 			final File textFile = FileUtils.getOutputFile(imageFile)
 					.orElseThrow(() -> new AsciiImageGeneratorException("Could not determine the output file name."));
-			final BufferedImage image = FileUtils.getImageFromFile(imageFile, scalingFactors)
+			final BufferedImage image = FileUtils.getImageFromFile(imageFile, scalingFactors, methods.getInterpolationType())
 					.orElseThrow(() -> new AsciiImageGeneratorException("Could not load image from file."));
-			final String[] asciiImage = Converter.convertToAscii(image)
+			final String[] asciiImage = Converter.convertToAscii(image, methods.getCharacterMode(), methods.getQuantizerMethod())
 					.orElseThrow(() -> new AsciiImageGeneratorException("Could not convert image to ASCII characters."));
 			if(!FileUtils.writeToFile(asciiImage, textFile))
 				throw new AsciiImageGeneratorException("Could not write to output file.");
