@@ -1,10 +1,14 @@
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/ennoxhd/ascii-image-generator?label=version&sort=semver)](https://github.com/ennoxhd/ascii-image-generator/tags)
 [![Code](https://img.shields.io/badge/code-Java%2015-blue)](https://jdk.java.net/15/)
 [![Build Tool](https://img.shields.io/badge/build%20tool-Gradle%206.8.3-yellow)](https://gradle.org/releases/)
-[![GitHub](https://img.shields.io/github/license/ennoxhd/glyph-creator)](https://opensource.org/licenses/MIT)
+[![GitHub](https://img.shields.io/github/license/ennoxhd/ascii-image-generator)](https://opensource.org/licenses/MIT)
 
 # ascii-image-generator
 Generates ASCII art from a given image.
+
+| **Table of contents** |
+| --------------------- |
+| **[Features](#features)**<br />**[Demo](#demo)**<br />**[Screenshots](#screenshots)**<br />**[Motivation](#motivation)**<br />**[Conversion technology](#conversion-technology)** |
 
 ## Features
 - Supported image formats: **bmp, gif, jpg, jpeg, png, tiff, wbmp**
@@ -14,23 +18,48 @@ Generates ASCII art from a given image.
     - Rounding method for quantization: **Ceil, Floor, Round**
     - Character variation: **10 characters, 70 characters**
 
-### Demo
-| original | ASCII art |
+## Demo
+| Original | ASCII art |
 | -------- | --------- |
 | ![./demo/demo.jpg](./demo/demo.jpg) | ![./demo/demo_ascii.png](./demo/demo_ascii.png) |
 | ["Wallpaper: The Way" by OiMax](https://www.flickr.com/photos/72396314@N00/3733544507) is licensed with [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/). | screenshot of resulting [./demo/demo.txt](./demo/demo.txt) |
 
-### Screenshots
-#### "Open file" dialog
+## Screenshots
+### "Open file" dialog
+Choose an image file in one of the [supported formats](#features) to start.
+
 ![./screenshots/01.png](./screenshots/01.png)
 
-#### "Scaling factors" dialog
+
+### "Scaling factors" dialog
+Change the factors for pre-scaling the input image. It may be useful to change the aspect ratio of the input image since pixels are converted 1:1 into characters and the font you are displaying the ASCII image with is likely to not have an aspect ratio of 1:1. You can also take a tradeoff in image resolution and therefore reduce the resulting file size.
+
+**Input range for _width_ and _height_:** 5-500% (Default: 100%)\
+**Half height:** Set the _height_ to one half the _width_ resulting in a 2:1 ratio.\
+**Proportional:** Set the _height_ to the _width_ resulting in a 1:1 ratio.
+
 ![./screenshots/02.png](./screenshots/02.png)
 
-#### "Image conversion methods" dialog
+### "Image conversion methods" dialog
+Change the appearance of the resulting ASCII image by changing the following settings to influence the conversion algorithm.
+
+**Interpolation type for image scaling:**\
+_Bicubic_: Uses [Bicubic interpolation](https://en.wikipedia.org/wiki/Bicubic_interpolation) for scaling. This results in a smoother image. This takes 16 pixels into account.\
+_Bilinear_ (default): Uses [Bilinear interpolation](https://en.wikipedia.org/wiki/Bilinear_interpolation) for scaling. This is good for most purposes but may lead to some interpolation artifacts. This takes 4 pixels into account.\
+_Nearest Neighbor_: Uses [Nearest-neighbor interpolation](https://en.wikipedia.org/wiki/Nearest-neighbor_interpolation) for scaling. This is useful for pixel art and preserves the blocky details.\
+**Rounding method for quantization:**\
+_Ceil_: Use [`Math::ceil`](https://docs.oracle.com/en/java/javase/15/docs/api/java.base/java/lang/Math.html#ceil(double)) for rounding values in the quantization process. This leads to more white details and reduces almost black details.\
+_Floor_: Use [`Math::floor`](https://docs.oracle.com/en/java/javase/15/docs/api/java.base/java/lang/Math.html#floor(double)) for rounding values in the quantization process. This leads to more black details and reduces almost white details.\
+_Round_ (default): Use [`Math::round`](https://docs.oracle.com/en/java/javase/15/docs/api/java.base/java/lang/Math.html#round(double)) for rounding values in the quantization process. This leads to an even distribution between almost white and almost black details.\
+**Character variation in resulting image**\
+_10 characters_ (default): Uses the character sequence `@%#*+=-:. `.\
+_70 characters_: Uses the character sequence ``$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. ``.
+
 ![./screenshots/03.png](./screenshots/03.png)
 
-#### "Success" dialog
+### "Success" dialog
+The image has been successfully converted and the resulting file name of the ASCII image is indicated.
+
 ![./screenshots/04.png](./screenshots/04.png)
 
 ## Motivation
