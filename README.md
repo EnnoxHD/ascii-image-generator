@@ -8,7 +8,7 @@ Generates ASCII art from a given image.
 
 | **Table of contents** |
 | --------------------- |
-| **[Features](#features)**<br />**[Demo](#demo)**<br />**[Screenshots](#screenshots)**<br />**[Motivation](#motivation)**<br />**[Conversion technology](#conversion-technology)** |
+| **[Features](#features)**<br />**[Demo](#demo)**<br />**[Documentation](#documentation) (with Screenshots)**<br />**[Motivation](#motivation)**<br />**[Conversion technology](#conversion-technology)** |
 
 ## Features
 - Supported image formats: **bmp, gif, jpg, jpeg, png, tiff, wbmp**
@@ -24,9 +24,11 @@ Generates ASCII art from a given image.
 | ![./demo/demo.jpg](./demo/demo.jpg) | ![./demo/demo_ascii.png](./demo/demo_ascii.png) |
 | ["Wallpaper: The Way" by OiMax](https://www.flickr.com/photos/72396314@N00/3733544507) is licensed with [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/). | screenshot of resulting [./demo/demo.txt](./demo/demo.txt) |
 
-## Screenshots
+## Documentation
 ### "Open file" dialog
-Choose an image file in one of the [supported formats](#features) to start.
+Choose an image file in one of the supported formats to start.
+
+**Supported formats:** bmp, gif, jpg, jpeg, png, tiff, wbmp
 
 ![./screenshots/01.png](./screenshots/01.png)
 
@@ -51,9 +53,9 @@ _Nearest Neighbor_: Uses [Nearest-neighbor interpolation](https://en.wikipedia.o
 _Ceil_: Use [`Math::ceil`](https://docs.oracle.com/en/java/javase/15/docs/api/java.base/java/lang/Math.html#ceil(double)) for rounding values in the quantization process. This leads to more white details and reduces almost black details.\
 _Floor_: Use [`Math::floor`](https://docs.oracle.com/en/java/javase/15/docs/api/java.base/java/lang/Math.html#floor(double)) for rounding values in the quantization process. This leads to more black details and reduces almost white details.\
 _Round_ (default): Use [`Math::round`](https://docs.oracle.com/en/java/javase/15/docs/api/java.base/java/lang/Math.html#round(double)) for rounding values in the quantization process. This leads to an even distribution between almost white and almost black details.\
-**Character variation in resulting image**\
-_10 characters_ (default): Uses the character sequence `@%#*+=-:. `.\
-_70 characters_: Uses the character sequence ``$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. ``.
+**Character variation in resulting image:**\
+_10 characters_ (default): Uses the character sequence `@%#*+=-:. ` to represent the different levels of grey in the ASCII image.\
+_70 characters_: Uses the character sequence ``$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. `` to represent the different levels of grey in the ASCII image.
 
 ![./screenshots/03.png](./screenshots/03.png)
 
