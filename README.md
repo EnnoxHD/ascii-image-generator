@@ -34,6 +34,14 @@ Generates ASCII art from a given image.
 ![./screenshots/04.png](./screenshots/04.png)
 
 ## Motivation
+There were many aspects that motivated me to start this project and
+to program some things the way they are now:
+1. Create awesome ASCII art with a simple algorithm.
+1. Recreate a known grayscale algorithm from mathematical notation in self-describing code referencing the given notation
+(after realizing that an algorithm like that is not as simple as taking the average of all color channels).
+1. Work with some low level bit operations in Java.
+1. Explore the usage of Java Swing in a small side project in contrast to JavaFX.
+1. Explore the benefits and drawbacks of using `java.util.Optional` instead of `null` as a return value.
 
 ## Conversion technology
 
