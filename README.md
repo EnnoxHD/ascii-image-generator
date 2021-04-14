@@ -89,6 +89,11 @@ to program some things the way they are now:
 ## Development
 
 ### Gradle Tasks
+| Task          | Description |
+| ------------- | ----------- |
+| `run`         | Runs this project as a JVM application. |
+| `debug`       | Runs this project as a JVM application with debugging enabled.<br />- add program arguments with `-Pargs="..."`<br />- attach a remote debugger via port `localhost:5005` |
+| `showJavadoc` | Opens the generated Javadoc API documentation in the default browser. |
 
 ### ARGB32 color model
 [ARGB32 color model](https://en.wikipedia.org/wiki/RGBA_color_model#ARGB32)
