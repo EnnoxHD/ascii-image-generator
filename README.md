@@ -8,7 +8,13 @@ Generates ASCII art from a given image.
 
 | **Table of contents** |
 | --------------------- |
-| **[Features](#features)**<br />**[Demo](#demo)**<br />**[Documentation](#documentation) (with Screenshots)**<br />**[Motivation](#motivation)**<br />**[Conversion technology](#conversion-technology)** |
+| **[Demo](#demo)**<br />**[Features](#features)**<br />**[Quick start](#quick-start)**<br />**[Documentation](#documentation) (with Screenshots)**<br />**[Motivation](#motivation)**<br />**[Development](#development)** |
+
+## Demo
+| Original | ASCII art |
+| -------- | --------- |
+| ![./demo/demo.jpg](./demo/demo.jpg) | ![./demo/demo_ascii.png](./demo/demo_ascii.png) |
+| ["Wallpaper: The Way" by OiMax](https://www.flickr.com/photos/72396314@N00/3733544507) is licensed with [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/). | screenshot of resulting [./demo/demo.txt](./demo/demo.txt) |
 
 ## Features
 - Supported image formats: **bmp, gif, jpg, jpeg, png, tiff, wbmp**
@@ -18,11 +24,17 @@ Generates ASCII art from a given image.
     - Rounding method for quantization: **Ceil, Floor, Round**
     - Character variation: **10 characters, 70 characters**
 
-## Demo
-| Original | ASCII art |
-| -------- | --------- |
-| ![./demo/demo.jpg](./demo/demo.jpg) | ![./demo/demo_ascii.png](./demo/demo_ascii.png) |
-| ["Wallpaper: The Way" by OiMax](https://www.flickr.com/photos/72396314@N00/3733544507) is licensed with [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/). | screenshot of resulting [./demo/demo.txt](./demo/demo.txt) |
+## Quick start
+
+### Requirements
+The program requires at least the installation of [Java 8 or higher to run Gradle](https://docs.gradle.org/current/userguide/installation.html#sec:prerequisites).
+
+### How to run
+To start the application simply run the following command from the command line.
+
+| Linux / macOS   | Windows             |
+| --------------- | ------------------- |
+| `./gradlew run` | `.\gradlew.bat run` |
 
 ## Documentation
 ### "Open file" dialog
@@ -74,7 +86,9 @@ to program some things the way they are now:
 1. Explore the usage of Java Swing in a small side project in contrast to JavaFX.
 1. Explore the benefits and drawbacks of using `java.util.Optional` instead of `null` as a return value.
 
-## Conversion technology
+## Development
+
+### Gradle Tasks
 
 ### ARGB32 color model
 [ARGB32 color model](https://en.wikipedia.org/wiki/RGBA_color_model#ARGB32)
