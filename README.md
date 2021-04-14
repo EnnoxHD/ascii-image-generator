@@ -1,4 +1,4 @@
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/ennoxhd/ascii-image-generator?label=version&sort=semver)](https://github.com/ennoxhd/ascii-image-generator/tags)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/ennoxhd/ascii-image-generator?include_prereleases&label=version&sort=semver)](https://github.com/ennoxhd/ascii-image-generator/tags)
 [![Code](https://img.shields.io/badge/code-Java%2015-blue)](https://jdk.java.net/15/)
 [![Build Tool](https://img.shields.io/badge/build%20tool-Gradle%206.8.3-yellow)](https://gradle.org/releases/)
 [![GitHub](https://img.shields.io/github/license/ennoxhd/ascii-image-generator)](https://opensource.org/licenses/MIT)
