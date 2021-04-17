@@ -14,7 +14,7 @@ Generates ASCII art from a given image.
 | Original | ASCII art |
 | -------- | --------- |
 | ![./demo/demo.jpg](./demo/demo.jpg) | ![./demo/demo_ascii.png](./demo/demo_ascii.png) |
-| ["Wallpaper: The Way" by OiMax](https://www.flickr.com/photos/72396314@N00/3733544507) is licensed with [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/). | screenshot of resulting [./demo/demo.txt](./demo/demo.txt) |
+| ["Wallpaper: The Way" by OiMax](https://www.flickr.com/photos/72396314@N00/3733544507)<br />is licensed with [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/). | Screenshot of the<br />[resulting text file](./demo/demo.txt) |
 
 ## Features
 - Supported image formats: **bmp, gif, jpg, jpeg, png, tiff, wbmp**
