@@ -115,14 +115,34 @@ In Java this may look like the following:
 
 ```Java
 // Get a pixel sample
-BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
-int pixel = image.getRGB(5, 5);
+BufferedImage image;
+int pixel = image.getRGB(0, 0); // 0xff306090 (#FF306090)
 
 // Extract the channel values
-int alpha = pixel >>> 24;
-int red = (pixel >>> 16) & 0xff;
-int green = (pixel >>> 8) & 0xff;
-int blue = pixel & 0xff;
+int alpha = pixel >>> 24; // 0xff (255)
+int red = (pixel >>> 16) & 0xff; // 0x30 (48)
+int green = (pixel >>> 8) & 0xff; // 0x60 (96)
+int blue = pixel & 0xff; // 0x90 (144)
+```
+
+A more detailed explanation with visualized bit operations steps:
+```text
+pixel        = [11111111 00110000 01100000 10010000]
+pixel >>> 24 = [00000000 00000000 00000000 11111111] = alpha
+
+pixel        = [11111111 00110000 01100000 10010000]
+pixel >>> 16 = [00000000 00000000 11111111 00110000]
+             & [00000000 00000000 00000000 11111111]
+               [00000000 00000000 00000000 00110000] = red
+
+pixel        = [11111111 00110000 01100000 10010000]
+pixel >>>  8 = [00000000 11111111 00110000 01100000]
+             & [00000000 00000000 00000000 11111111]
+               [00000000 00000000 00000000 01100000] = green
+
+pixel        = [11111111 00110000 01100000 10010000]
+             & [00000000 00000000 00000000 11111111]
+               [00000000 00000000 00000000 10010000] = blue
 ```
 
 ### Grayscale algorithm
