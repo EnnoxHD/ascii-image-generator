@@ -98,13 +98,14 @@ to program some things the way they are now:
 ### ARGB32 color model
 The color of a pixel is represented as a 32-bit integer as descibed by the
 [ARGB32 color model](https://en.wikipedia.org/wiki/RGBA_color_model#ARGB32).
-The 32 bits represent 4 channels of 8 bits each where the first one is alpha (A) and
-the three remaining channels are for red (R), green (G) and blue (B).
+The 32 bits represent 4 channels of 8 bits each where the first one is alpha (`A`) and
+the three remaining channels are for red (`R`), green (`G`) and blue (`B`).
 The range of values for each channel is based on the sample length.
 So in this case the 8 bit wide channels allow for values ranging from `0` to `255` in decimal or
 `00` to `FF` in hexadecimal notation.
-`00` means black (in case of R, G or B) or fully transparent (in case of A) and
-'FF' means fully saturated or fully opaque.
+`00` means black (in case of channels `R`, `G` or `B`) or
+fully transparent (in case of the alpha channel `A`).
+`FF` means full brightness of the color or fully opaque.
 
 [![PixelSamples32bppRGBA.png](https://upload.wikimedia.org/wikipedia/commons/0/0e/PixelSamples32bppRGBA.png)](https://upload.wikimedia.org/wikipedia/commons/0/0e/PixelSamples32bppRGBA.png)
 
