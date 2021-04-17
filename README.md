@@ -96,7 +96,31 @@ to program some things the way they are now:
 | `showJavadoc` | Opens the generated Javadoc API documentation in the default browser. |
 
 ### ARGB32 color model
-[ARGB32 color model](https://en.wikipedia.org/wiki/RGBA_color_model#ARGB32)
+The color of a pixel is represented as a 32-bit integer as descibed by the
+[ARGB32 color model](https://en.wikipedia.org/wiki/RGBA_color_model#ARGB32).
+The 32 bits represent 4 channels of 8 bits each where the first one is alpha (A) and
+the three remaining channels are for red (R), green (G) and blue (B).
+The range of values for each channel is based on the sample length.
+So in this case the 8 bit wide channels allow for values ranging from `0` to `255` in decimal or
+`00` to `FF` in hexadecimal notation.
+
+[![PixelSamples32bppRGBA.png](https://upload.wikimedia.org/wikipedia/commons/0/0e/PixelSamples32bppRGBA.png)](https://upload.wikimedia.org/wikipedia/commons/0/0e/PixelSamples32bppRGBA.png)
+
+To get the different channel values out of a full representation of a pixel color
+some bit manipulation is needed.
+In Java this may look like the following:
+
+```Java
+// Get a pixel sample
+BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
+int pixel = image.getRGB(5, 5);
+
+// Extract the channel values
+int alpha = pixel >>> 24;
+int red = (pixel >>> 16) & 0xff;
+int green = (pixel >>> 8) & 0xff;
+int blue = pixel & 0xff;
+```
 
 ### Grayscale algorithm
 [Grayscale algorithm](https://en.m.wikipedia.org/wiki/Grayscale#Colorimetric_(perceptual_luminance-preserving)_conversion_to_grayscale)
