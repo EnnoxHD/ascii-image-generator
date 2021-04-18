@@ -149,4 +149,16 @@ pixel        = [11111111 00110000 01100000 10010000]
 [Grayscale algorithm](https://en.m.wikipedia.org/wiki/Grayscale#Colorimetric_(perceptual_luminance-preserving)_conversion_to_grayscale)
 
 ### Character sequences for ASCII art
-[Character sequences](http://paulbourke.net/dataformats/asciiart/)
+This generator uses different characters to represent the brightness of pixels.
+Some characters are more dense and cover more area than others and
+therefore are used for darker pixels.
+Some characters such as a simple dot or a space are used for brighter pixels.
+This application makes use of
+[two known character sequences](http://paulbourke.net/dataformats/asciiart/)
+with a length (or variation in levels of grey) of 10 and 70 characters.
+They are ordered from dark to bright and each includes a space character for white pixels.
+
+```text
+10 characters: @%#*+=-:. 
+70 characters: $@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. 
+```
