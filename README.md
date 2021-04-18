@@ -146,7 +146,11 @@ pixel        = [11111111 00110000 01100000 10010000]
 ```
 
 ### Grayscale algorithm
-[Grayscale algorithm](https://en.m.wikipedia.org/wiki/Grayscale#Colorimetric_(perceptual_luminance-preserving)_conversion_to_grayscale)
+In order to convert a color that is typically gamma-compressed and
+therefore represented in a nonlinear color model to a grayscale representation
+with preserved luminance several steps for calculation are necessary.
+The algorithm used in this application is based on
+[this article about "colorimetric conversion to grayscale"](https://en.m.wikipedia.org/wiki/Grayscale#Colorimetric_(perceptual_luminance-preserving)_conversion_to_grayscale).
 
 ### Character sequences for ASCII art
 This generator uses different characters to represent the brightness of pixels.
