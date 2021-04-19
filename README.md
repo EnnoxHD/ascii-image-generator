@@ -152,6 +152,14 @@ with preserved luminance several steps for calculation are necessary.
 The algorithm used in this application is based on
 [this article about "colorimetric conversion to grayscale"](https://en.m.wikipedia.org/wiki/Grayscale#Colorimetric_(perceptual_luminance-preserving)_conversion_to_grayscale).
 
+At first the gamma-compression must be removed by expanding it.
+After that the color is in a linear colorspace and
+a weighted sum of the color channel values gives the overall linear luminance.
+The final step is to convert it back to a gamma-compressed color and
+set all color channels to this value.
+The color is now converted to grayscale.
+Implementation details may be seen in the `Grayscale.java` class.
+
 ### Character sequences for ASCII art
 This generator uses different characters to represent the brightness of pixels.
 Some characters are more dense and cover more area than others and
