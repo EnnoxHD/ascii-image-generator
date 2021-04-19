@@ -3,7 +3,7 @@
 [![Build Tool](https://img.shields.io/badge/build%20tool-Gradle%207.0-yellow)](https://gradle.org/releases/)
 [![GitHub](https://img.shields.io/github/license/ennoxhd/ascii-image-generator)](https://opensource.org/licenses/MIT)
 
-# ascii-image-generator
+# ![icon](./src/main/resources/com/github/ennoxhd/aig/appicon_32x32.png) ascii-image-generator
 Generates ASCII art from a given image.
 
 | **Table of contents** |
