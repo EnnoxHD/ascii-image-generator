@@ -37,7 +37,7 @@ To start the application simply run the following command from the command line.
 | `./gradlew run` | `.\gradlew.bat run` |
 
 ## Documentation
-### "Open file" dialog
+### "Choose image file" dialog
 Choose an image file in one of the supported formats to start.
 
 **Supported formats:** bmp, gif, jpg, jpeg, png, tiff, wbmp

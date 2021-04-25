@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -13,11 +14,13 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Optional;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFormattedTextField.AbstractFormatter;
@@ -41,9 +44,59 @@ import com.github.ennoxhd.aig.ImageConversionMethods.InterpolationType;
 final class Dialogs {
 	
 	/**
-	 * Private default constructor (not used).
+	 * Application icon.
+	 */
+	private static Optional<BufferedImage> appicon;
+	
+	/**
+	 * Gets the application icon and loads it from resources if necessary.
+	 * @return the application icon
+	 */
+	private static final Optional<BufferedImage> getAppIcon() {
+		if(appicon != null)
+			return appicon;
+		try {
+			final String path = "appicon_32x32.png";
+			final BufferedImage image = ImageIO.read(new Dialogs().getClass().getResourceAsStream(path));
+			appicon = Optional.ofNullable(image);
+		} catch(Exception e) {
+			appicon = Optional.empty();
+		}
+		return appicon;
+	}
+	
+	/**
+	 * Private default constructor.
+	 * @see #getAppIcon()
 	 */
 	private Dialogs() {}
+	
+	/**
+	 * Creates a title for a dialog prefixed with the application name.
+	 * @param dialogTitle the title of the dialog
+	 * @return the title for an application dialog
+	 */
+	private static final String makeTitle(final String dialogTitle) {
+		return "AsciiImageGenerator - " + dialogTitle;
+	}
+	
+	/**
+	 * Prepares and shows a dialog to the user.
+	 * The title gets prefixed with the application name and
+	 * the application icon gets set on the dialog window.
+	 * @param pane the content and choices to show in the dialog
+	 * @param title title to use on the dialog window
+	 * @return the value the user selected
+	 * @see #makeTitle(String)
+	 * @see JOptionPane#JOptionPane(Object, int, int, javax.swing.Icon)
+	 */
+	private static final Object showDialog(final JOptionPane pane, final String title) {
+		final JDialog dialog = pane.createDialog(makeTitle(title));
+		Dialogs.getAppIcon().ifPresent(icon -> dialog.setIconImage(icon));
+		dialog.setVisible(true);
+		dialog.dispose();
+		return pane.getValue();
+	}
 	
 	/**
 	 * Converts an {@link Exception} to a string containing the stack trace. 
@@ -82,8 +135,8 @@ final class Dialogs {
 			layout.setVerticalGroup(layout.createSequentialGroup()
 					.addComponent(message)
 					.addComponent(scrollPane));
-			JOptionPane.showMessageDialog(null, panel,
-					"AsciiImageGenerator - Error", JOptionPane.ERROR_MESSAGE);
+			showDialog(new JOptionPane(panel, JOptionPane.ERROR_MESSAGE,
+					JOptionPane.OK_CANCEL_OPTION), "Error");
 		} catch(final Exception ex) {
 			return;
 		}
@@ -97,8 +150,8 @@ final class Dialogs {
 		String message = "The image file has been converted to ASCII art.";
 		if(fileName != null && !fileName.isBlank())
 			message += "\nFile: " + fileName;
-		JOptionPane.showMessageDialog(null, message, "AsciiImageGenerator",
-				JOptionPane.INFORMATION_MESSAGE);
+		showDialog(new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE,
+				JOptionPane.DEFAULT_OPTION), "Success");
 	}
 
 	/**
@@ -108,23 +161,23 @@ final class Dialogs {
 	static final Optional<File> chooseImageFileDialog() {
 		GuiUtils.initializeGui();
 		final JFileChooser chooser = new JFileChooser();
-		chooser.setDialogTitle("Ascii Image Generator");
+		chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+		chooser.setControlButtonsAreShown(false);
 		final FileFilter imageFileFilter = new FileNameExtensionFilter("Image file",
 				"bmp", "gif", "jpg", "jpeg", "png", "tiff", "wbmp");
 		chooser.addChoosableFileFilter(imageFileFilter);
 		chooser.setFileFilter(imageFileFilter);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.setMultiSelectionEnabled(false);
-		if(chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
-			return Optional.empty();
-		} else {
+		final int result = (int) showDialog(new JOptionPane(chooser, JOptionPane.PLAIN_MESSAGE,
+				JOptionPane.OK_CANCEL_OPTION), "Choose image file");
+		if(result == JOptionPane.OK_OPTION) {
 			final File selectedFile = chooser.getSelectedFile();
 			if(selectedFile.isFile()) {
 				return Optional.of(selectedFile);
-			} else {
-				return Optional.empty();
 			}
 		}
+		return Optional.empty();
 	}
 	
 	/**
@@ -269,8 +322,8 @@ final class Dialogs {
 					.addComponent(heightProportional))
 		);
 		
-		final int result = JOptionPane.showConfirmDialog(null, panel, "Scaling factors",
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		final int result = (int) showDialog(new JOptionPane(panel, JOptionPane.PLAIN_MESSAGE,
+				JOptionPane.OK_CANCEL_OPTION), "Scaling factors");
 		
 		if(result == JOptionPane.OK_OPTION) {
 			final Point2D.Double scale = new Point2D.Double(widthSlider.getValue() / 100.0,
@@ -401,8 +454,8 @@ final class Dialogs {
 			panels[i].setMinimumSize(maxDimension);
 		}
 		
-		final int result = JOptionPane.showConfirmDialog(null, mainPanel, "Image conversion methods",
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		final int result = (int) showDialog(new JOptionPane(mainPanel,JOptionPane.PLAIN_MESSAGE,
+				JOptionPane.OK_CANCEL_OPTION), "Image conversion methods");
 		
 		if(result == JOptionPane.OK_OPTION) {
 			final ImageConversionMethods methods = new ImageConversionMethods();
